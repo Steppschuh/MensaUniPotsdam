@@ -98,6 +98,10 @@ public class DataHelper {
 	}
 
 	public static String urlEncodeUTF8(Map<?,?> map) {
+		if (map.size() < 1) {
+			return "";
+		}
+
 		StringBuilder sb = new StringBuilder();
 		sb.append("?");
 		for (Map.Entry<?,?> entry : map.entrySet()) {

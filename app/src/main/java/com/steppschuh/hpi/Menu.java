@@ -7,8 +7,10 @@ import com.steppschuh.hpi.utils.DataHelper;
 import com.steppschuh.hpi.utils.NetworkHelper;
 
 import org.apache.http.HttpResponse;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -18,36 +20,32 @@ public class Menu {
 	private boolean closed;
 	private ArrayList<Meal> meals;
 
-	/**
-	 * Asynchronusly requests and parses menu data from
-	 * the OpenMensa API
-	 */
-	public void getMenu(final int id, final Handler callbackHandler) {
-		if (id == -1) {
-			Log.e(MensaApp.TAG, "Unable to get menu info, id is not set");
-			callbackHandler.sendEmptyMessage(0);
-			return;
-		}
+	public void parseFromJson(JSONObject menuJson) {
+		try {
+			meals = new ArrayList<Meal>();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			date = formatter.parse(menuJson.getString("date"));
 
-		(new Thread() {
-			@Override
-			public void run() {
-				// Request info from API
-				String url = API.getMensaMenuUrl(id);
-				HttpResponse response = NetworkHelper.getHttpResponse(url);
+			closed = menuJson.getBoolean("closed");
 
-				// Parse info from JSON response
-				parseJsonResponse(DataHelper.getJsonString(response));
+			JSONArray mealsJson = menuJson.getJSONArray("meals");
+			for (int i = 0; i < mealsJson.length(); i++) {
+				try {
+					JSONObject mealJson = (JSONObject) mealsJson.get(i);
+					Log.d(MensaApp.TAG, mealJson.toString());
 
-				// Send callback message
-				callbackHandler.sendEmptyMessage(0);
+					Meal meal = new Meal();
+					meal.parseFromJson(mealJson);
+					meals.add(meal);
+				} catch (Exception ex) {
+					Log.e(MensaApp.TAG, "Unable to parse meal JSON object");
+					ex.printStackTrace();
+				}
 			}
-		}).start();
-	}
-
-	public void parseJsonResponse(String response) {
-		JSONObject jsonRoot = DataHelper.getJsonRoot(response);
-		//TODO: parse json
+		} catch (Exception ex) {
+			Log.e(MensaApp.TAG, "Unable to parse menu JSON object");
+			ex.printStackTrace();
+		}
 	}
 
 	/**

@@ -1,5 +1,11 @@
 package com.steppschuh.hpi;
 
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Meal {
@@ -7,9 +13,42 @@ public class Meal {
 	private int id;
 	private String name;
 	private String category;
-	private String price;
+	private Double price;
 	private ArrayList<String> notes;
 
+	public void parseFromJson(JSONObject mealJson) {
+		try {
+			notes = new ArrayList<String>();
+
+			id = mealJson.getInt("id");
+			name = mealJson.getString("name");
+			category = mealJson.getString("category");
+
+			try {
+				JSONObject pricesJson = mealJson.getJSONObject("prices");
+				price = pricesJson.getDouble("students");
+			} catch (Exception ex) {
+				price = null;
+			}
+
+			try {
+				JSONArray notesJson = mealJson.getJSONArray("notes");
+				for (int i = 0; i < notesJson.length(); i++) {
+					String note = notesJson.getString(i);
+					notes.add(note);
+				}
+			} catch (Exception ex) {
+				notes = new ArrayList<String>();
+			}
+		} catch (Exception ex) {
+			Log.e(MensaApp.TAG, "Unable to parse menu JSON object");
+			ex.printStackTrace();
+		}
+	}
+
+	/**
+	 * Getter and setter
+	 */
 	public int getId() {
 		return id;
 	}
@@ -34,11 +73,11 @@ public class Meal {
 		this.category = category;
 	}
 
-	public String getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
