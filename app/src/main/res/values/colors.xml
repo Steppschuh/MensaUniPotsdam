@@ -3,4 +3,7 @@
     <color name="green_dark">#6eb620</color>
     <color name="green_light">#8fc059</color>
 
+    <color name="text_main">#FF000000</color>
+    <color name="text_sub">#99000000</color>
+
 </resources>

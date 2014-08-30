@@ -14,7 +14,7 @@ public class Meal {
 	private String name;
 	private String category;
 	private Double price;
-	private ArrayList<String> notes;
+	private ArrayList<String> notes = new ArrayList<String>();
 
 	public void parseFromJson(JSONObject mealJson) {
 		try {

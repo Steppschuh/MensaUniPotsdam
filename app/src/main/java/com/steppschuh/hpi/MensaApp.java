@@ -12,9 +12,29 @@ public class MensaApp extends Application {
 	public static final String TAG = "mensa";
 
 	private ArrayList<Mensa> mensas;
+	private Handler callbackHandlerGriebnitzsee;
+	private Handler callbackHandlerUlf;
 
 	public void initialize() {
 		Log.d(TAG, "Initializing app");
+
+		Handler defaultCallBackHandler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				Log.d(TAG, "defaultCallBackHandler received a message");
+				switch (msg.what) {
+					case API.ID_ULF:
+						callbackHandlerUlf.sendEmptyMessage(0);
+						break;
+					case API.ID_GRIEBNITZSEE:
+						callbackHandlerGriebnitzsee.sendEmptyMessage(0);
+						break;
+				}
+			}
+		};
+
+		callbackHandlerGriebnitzsee = defaultCallBackHandler;
+		callbackHandlerUlf = defaultCallBackHandler;
 
 		mensas = new ArrayList<Mensa>();
 		loadDefaultMensas();
@@ -42,28 +62,19 @@ public class MensaApp extends Application {
 	}
 
 	public void loadDefaultMensas() {
-		Handler callbackHandlerGriebnitzsee = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				Log.d(TAG, "callbackHandlerGriebnitzsee");
-			}
-		};
+
 		Mensa mensaGriebnitzsee = new Mensa();
 		mensaGriebnitzsee.setId(API.ID_GRIEBNITZSEE);
 		mensaGriebnitzsee.getInfo(callbackHandlerGriebnitzsee);
 		mensaGriebnitzsee.getMenu(callbackHandlerGriebnitzsee);
+		mensas.add(mensaGriebnitzsee);
 
 
-		Handler callbackHandlerUlf = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				Log.d(TAG, "callbackHandlerUlf");
-			}
-		};
 		Mensa mensaUlf = new Mensa();
 		mensaUlf.setId(API.ID_ULF);
-		//mensaUlf.getInfo(callbackHandlerUlf);
-		//mensaUlf.getMenu(callbackHandlerUlf);
+		mensaUlf.getInfo(callbackHandlerUlf);
+		mensaUlf.getMenu(callbackHandlerUlf);
+		mensas.add(mensaUlf);
 	}
 
 	public ArrayList<Mensa> getMensas() {
@@ -72,5 +83,21 @@ public class MensaApp extends Application {
 
 	public void setMensas(ArrayList<Mensa> mensas) {
 		this.mensas = mensas;
+	}
+
+	public Handler getCallbackHandlerGriebnitzsee() {
+		return callbackHandlerGriebnitzsee;
+	}
+
+	public void setCallbackHandlerGriebnitzsee(Handler callbackHandlerGriebnitzsee) {
+		this.callbackHandlerGriebnitzsee = callbackHandlerGriebnitzsee;
+	}
+
+	public Handler getCallbackHandlerUlf() {
+		return callbackHandlerUlf;
+	}
+
+	public void setCallbackHandlerUlf(Handler callbackHandlerUlf) {
+		this.callbackHandlerUlf = callbackHandlerUlf;
 	}
 }

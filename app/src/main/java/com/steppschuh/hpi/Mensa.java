@@ -22,6 +22,8 @@ public class Mensa {
 	private String coordinates;
 	private ArrayList<Menu> menus;
 
+	private boolean isUpdatingMenu = false;
+
 	/**
 	 * Asynchronusly requests and parses info about itself from
 	 * the OpenMensa API
@@ -29,7 +31,7 @@ public class Mensa {
 	public void getInfo(final Handler callbackHandler) {
 		if (id == -1) {
 			Log.e(MensaApp.TAG, "Unable to get mensa info, id is not set");
-			callbackHandler.sendEmptyMessage(0);
+			callbackHandler.sendEmptyMessage(id);
 			return;
 		}
 
@@ -44,7 +46,7 @@ public class Mensa {
 				parseInfoResponse(DataHelper.getJsonString(response));
 
 				// Send callback message
-				callbackHandler.sendEmptyMessage(0);
+				callbackHandler.sendEmptyMessage(id);
 			}
 		}).start();
 	}
@@ -61,13 +63,15 @@ public class Mensa {
 	public void getMenu(final Handler callbackHandler) {
 		if (id == -1) {
 			Log.e(MensaApp.TAG, "Unable to get mensa menu, id is not set");
-			callbackHandler.sendEmptyMessage(0);
+			callbackHandler.sendEmptyMessage(id);
 			return;
 		}
 
 		(new Thread() {
 			@Override
 			public void run() {
+				isUpdatingMenu = true;
+
 				// Request info from API
 				String url = API.getMensaMenuUrl(id);
 				HttpResponse response = NetworkHelper.getHttpResponse(url);
@@ -75,8 +79,10 @@ public class Mensa {
 				// Parse menu from JSON response
 				parseMenuResponse(DataHelper.getJsonString(response));
 
+				isUpdatingMenu = false;
+
 				// Send callback message
-				callbackHandler.sendEmptyMessage(0);
+				callbackHandler.sendEmptyMessage(id);
 			}
 		}).start();
 	}
@@ -89,8 +95,6 @@ public class Mensa {
 			for (int i = 0; i < rootJson.length(); i++) {
 				try {
 					JSONObject menuJson = (JSONObject) rootJson.get(i);
-					Log.d(MensaApp.TAG, menuJson.toString());
-
 					Menu menu = new Menu();
 					menu.parseFromJson(menuJson);
 					menus.add(menu);

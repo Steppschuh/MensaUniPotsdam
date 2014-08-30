@@ -81,7 +81,7 @@ public class DataHelper {
 		String responseString = null;
 		try {
 			responseString = EntityUtils.toString(response.getEntity());
-			Log.d(MensaApp.TAG, "Response: " + responseString);
+			//Log.d(MensaApp.TAG, "Response: " + responseString);
 		} catch (Exception ex) {
 			Log.e(MensaApp.TAG, "Unable to get Json String from response");
 			ex.printStackTrace();

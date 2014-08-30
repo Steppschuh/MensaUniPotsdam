@@ -18,7 +18,7 @@ public class Menu {
 
 	private Date date;
 	private boolean closed;
-	private ArrayList<Meal> meals;
+	private ArrayList<Meal> meals = new ArrayList<Meal>();
 
 	public void parseFromJson(JSONObject menuJson) {
 		try {
@@ -32,8 +32,6 @@ public class Menu {
 			for (int i = 0; i < mealsJson.length(); i++) {
 				try {
 					JSONObject mealJson = (JSONObject) mealsJson.get(i);
-					Log.d(MensaApp.TAG, mealJson.toString());
-
 					Meal meal = new Meal();
 					meal.parseFromJson(mealJson);
 					meals.add(meal);
