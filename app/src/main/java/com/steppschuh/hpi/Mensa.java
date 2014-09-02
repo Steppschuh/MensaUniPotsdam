@@ -76,8 +76,13 @@ public class Mensa {
 				String url = API.getMensaMenuUrl(id);
 				HttpResponse response = NetworkHelper.getHttpResponse(url);
 
+				if (response == null) {
+					DataHelper.sendMessage(callbackHandler, SplashActivity.KEY_STATUS, SplashActivity.STATUS_ERROR_NETWORK);
+					return;
+				}
+
 				// Parse menu from JSON response
-				parseMenuResponse(DataHelper.getJsonString(response));
+				parseMenuResponse(DataHelper.getJsonString(response), callbackHandler);
 
 				isUpdatingMenu = false;
 
@@ -87,7 +92,7 @@ public class Mensa {
 		}).start();
 	}
 
-	public void parseMenuResponse(String response) {
+	public void parseMenuResponse(String response, Handler callbackHandler) {
 		try {
 			menus = new ArrayList<Menu>();
 
@@ -106,6 +111,7 @@ public class Mensa {
 		} catch (Exception ex) {
 			Log.e(MensaApp.TAG, "Unable to parse menus JSON");
 			ex.printStackTrace();
+			DataHelper.sendMessage(callbackHandler, SplashActivity.KEY_STATUS, SplashActivity.STATUS_ERROR_PARSING);
 		}
 	}
 

@@ -58,6 +58,7 @@ public class MenuFragment extends Fragment {
 				app.setCallbackHandlerGriebnitzsee(callbackHandler);
 				break;
 		}
+
 		listViewMenu = (ListView) fragment.findViewById(R.id.listview_menu);
 		adapter = new MealListAdapter(getActivity());
 		listViewMenu.setAdapter(adapter);

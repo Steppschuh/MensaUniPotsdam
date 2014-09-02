@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_weight="1"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
-        android:src="@drawable/cover_menu"
+        android:background="@color/green_light"
         android:scaleType="centerCrop"
         android:alpha="0.2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <LinearLayout
+        android:id="@+id/meal_icon_container"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+    </LinearLayout>
+
     <RelativeLayout
-        android:padding="15dp"
+        android:id="@+id/meal_info_container"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_toRightOf="@id/meal_icon_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -27,33 +39,9 @@
             android:layout_height="wrap_content"/>
 
         <LinearLayout
-            android:id="@+id/meal_icon_container"
             android:orientation="horizontal"
             android:layout_above="@id/meal_name"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:src="@drawable/ic_chicken"
-                android:layout_margin="5dp"
-                android:scaleType="centerInside"
-                android:layout_width="30dp"
-                android:layout_height="30dp"/>
-
-            <ImageView
-                android:src="@drawable/ic_pig"
-                android:layout_margin="5dp"
-                android:scaleType="centerInside"
-                android:layout_width="30dp"
-                android:layout_height="30dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_below="@id/meal_name"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="2dp"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -64,7 +52,6 @@
                 android:textColor="@color/text_sub"
                 android:gravity="center"
                 android:text="Angebot 1"
-                android:layout_marginRight="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -74,6 +61,7 @@
                 android:textColor="@color/text_sub"
                 android:gravity="center"
                 android:text="2,20€"
+                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 

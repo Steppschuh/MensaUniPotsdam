@@ -1,17 +1,20 @@
 package com.steppschuh.hpi;
 
-import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
+
+import com.steppschuh.hpi.utils.UiHelper;
 
 
-public class StartActivity extends FragmentActivity {
+public class MensaActivity extends FragmentActivity {
 
 	private MensaApp app;
 
@@ -21,14 +24,18 @@ public class StartActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
-
-		app = (MensaApp) getApplicationContext();
-		app.initialize();
+        setContentView(R.layout.activity_mensa);
 
 		mMenuCollectionPagerAdapter = new MenuCollectionPagerAdapter(getSupportFragmentManager());
 		mViewPager = (ViewPager) findViewById(R.id.viewpager_mensas);
 		mViewPager.setAdapter(mMenuCollectionPagerAdapter);
+
+		PagerTitleStrip titleStrip = (PagerTitleStrip) findViewById(R.id.viewpager_mensa_title);
+		titleStrip.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+		titleStrip.setBackgroundColor(getResources().getColor(R.color.green_light));
+		titleStrip.setTextColor(Color.WHITE);
+		int padding = UiHelper.dpToPx(3);
+		titleStrip.setPadding(0, padding, 0, padding);
     }
 
     @Override

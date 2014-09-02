@@ -2,12 +2,13 @@
 <resources>
 
     <string name="app_name">Mensa Uni Potsdam</string>
+    <string name="initializing">Initialisiere..</string>
+    <string name="loading_menu">Lade Speiseplan..</string>
+    <string name="error_network">Netzwerkfehler</string>
+    <string name="error_parsing">Unerwartete Antwort vom Server</string>
 
     <string name="mensa_potsdam">Uni Potsdam</string>
     <string name="mensa_ulf">Ulf\'s Café</string>
-
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

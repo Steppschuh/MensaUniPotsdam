@@ -125,4 +125,13 @@ public class DataHelper {
 		mHandler.sendMessage(message);
 	}
 
+	public static void sendMessage(Handler mHandler, String key, int value) {
+		Log.d(MensaApp.TAG, "Sending message to handler: [" + key + "] " + String.valueOf(value));
+		Bundle data = new Bundle();
+		data.putInt(key, value);
+		Message message = new Message();
+		message.setData(data);
+		mHandler.sendMessage(message);
+	}
+
 }

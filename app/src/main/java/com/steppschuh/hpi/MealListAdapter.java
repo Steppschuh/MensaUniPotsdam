@@ -2,13 +2,19 @@ package com.steppschuh.hpi;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.steppschuh.hpi.utils.DataHelper;
+import com.steppschuh.hpi.utils.UiHelper;
 
 public class MealListAdapter extends BaseAdapter {
 
@@ -48,28 +54,62 @@ public class MealListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View view = convertView;
-		if (convertView == null) {
-			view = inflater.inflate(R.layout.meal_item, null);
-		}
-
 		Meal meal = menu.getMeals().get(position);
 
+		// Inflate item layout
+		View view = convertView;
+		if (convertView == null) {
+			view = inflater.inflate(R.layout.meal_item, parent, false);
+		}
+
+		// Set item height to fill parent layout
+		int itemHeight = parent.getHeight() / menu.getMeals().size();
+		if (itemHeight < UiHelper.dpToPx(100)) {
+			itemHeight = UiHelper.dpToPx(100);
+		}
+
+		view.getLayoutParams().height = itemHeight;
+		view.requestLayout();
+
+		// Fill item layout with menu data
 		TextView title = (TextView) view.findViewById(R.id.meal_name);
-		title.setText(meal.getName());
-		//title.setText(items.get(0).getMeals().get(position).getReadableTitle());
+		title.setText(meal.getReadableName());
 
 		TextView category = (TextView) view.findViewById(R.id.meal_category);
 		category.setText(meal.getCategory());
-		//category.setText(items.get(0).getMeals().get(position).getCategory());
 
 		TextView price = (TextView) view.findViewById(R.id.meal_price);
-		price.setText(String.valueOf(meal.getPrice()));
-		//price.setText(items.get(0).getMeals().get(position).getPrice());
+		String readablePrice = meal.getReadablePrice();
+		if (readablePrice != null) {
+			price.setText(String.valueOf(meal.getPrice()));
+		} else {
+			price.setVisibility(View.GONE);
+		}
 
+		// Add indicator icons to container
 		LinearLayout iconContainer = (LinearLayout) view.findViewById(R.id.meal_icon_container);
+		if(iconContainer.getChildCount() > 0) {
+			iconContainer.removeAllViews();
+		}
+		for (Drawable icon: meal.getIcons(activity)) {
+			iconContainer.addView(getIndicatorView(icon, activity));
+		}
 
 		return view;
+	}
+
+	private ImageView getIndicatorView(Drawable icon, Context context) {
+		ImageView iconView = new ImageView(context);
+		iconView.setImageDrawable(icon);
+
+		int width = UiHelper.dpToPx(30);
+		int margin = UiHelper.dpToPx(5);
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, width);
+		params.setMargins(margin, margin, margin, margin);
+		iconView.setLayoutParams(params);
+
+		iconView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+		return iconView;
 	}
 
 }
