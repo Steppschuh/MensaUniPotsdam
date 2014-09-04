@@ -7,6 +7,10 @@
     <string name="error_network">Netzwerkfehler</string>
     <string name="error_parsing">Unerwartete Antwort vom Server</string>
 
+    <string name="date_today">Heute</string>
+    <string name="date_tomorrow">Morgen</string>
+    <string name="date_aftertomorrow">Übermorgen</string>
+
     <string name="mensa_potsdam">Uni Potsdam</string>
     <string name="mensa_ulf">Ulf\'s Café</string>
     <string name="action_settings">Settings</string>

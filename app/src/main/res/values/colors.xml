@@ -6,4 +6,6 @@
     <color name="text_main">#FF000000</color>
     <color name="text_sub">#77000000</color>
 
+    <color name="meal_back">#BBffffff</color>
+
 </resources>

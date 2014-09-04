@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:background="@color/green_light"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
-        android:background="@color/green_light"
+        android:id="@+id/meal_background"
         android:scaleType="centerCrop"
-        android:alpha="0.2"
+        android:src="@drawable/ic_logo_green"
+        android:alpha="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
 
     <LinearLayout
         android:id="@+id/meal_icon_container"
         android:orientation="vertical"
         android:gravity="center"
         android:paddingLeft="5dp"
+        android:background="@color/meal_back"
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
@@ -24,6 +28,7 @@
         android:id="@+id/meal_info_container"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
+        android:background="@color/meal_back"
         android:layout_toRightOf="@id/meal_icon_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

@@ -4,11 +4,21 @@
     android:layout_height="match_parent"
     tools:context="com.steppschuh.hpi.MenuFragment">
 
-    <ListView
-        android:id="@+id/listview_menu"
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </ListView>
+
+        <ListView
+            android:id="@+id/listview_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@android:color/transparent">
+
+        </ListView>
+
+    </LinearLayout>
 
 </FrameLayout>

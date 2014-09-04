@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.steppschuh.hpi.utils.DataHelper;
+import com.steppschuh.hpi.utils.ImageHelper;
 import com.steppschuh.hpi.utils.UiHelper;
 
 public class MealListAdapter extends BaseAdapter {
@@ -94,6 +95,11 @@ public class MealListAdapter extends BaseAdapter {
 		for (Drawable icon: meal.getIcons(activity)) {
 			iconContainer.addView(getIndicatorView(icon, activity));
 		}
+
+		// Set background image
+		Drawable foodImage = ImageHelper.getBestImage(meal.getReadableName().toLowerCase(), activity);
+		ImageView backgroundImage = (ImageView) view.findViewById(R.id.meal_background);
+		backgroundImage.setImageDrawable(foodImage);
 
 		return view;
 	}

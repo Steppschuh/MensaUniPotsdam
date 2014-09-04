@@ -17,7 +17,8 @@ public class MenuFragment extends Fragment {
 
 	private MensaApp app;
 	private View fragment;
-	private int index;
+	private int mensaIndex;
+	private int mensaIndex;
 
 	ListView listViewMenu;
 	MealListAdapter adapter;
@@ -38,10 +39,12 @@ public class MenuFragment extends Fragment {
 
 		Bundle bundle = this.getArguments();
 		if (bundle != null) {
-			index = bundle.getInt("index", FRAGMENT_MENSA_GRIEBNITZSEE);
+			mensaIndex = bundle.getInt("index", FRAGMENT_MENSA_GRIEBNITZSEE);
 		} else {
-			index = FRAGMENT_MENSA_GRIEBNITZSEE;
+			mensaIndex = FRAGMENT_MENSA_GRIEBNITZSEE;
 		}
+
+
 
 		Handler callbackHandler = new Handler() {
 			@Override
@@ -50,7 +53,7 @@ public class MenuFragment extends Fragment {
 			}
 		};
 
-		switch (index) {
+		switch (mensaIndex) {
 			case FRAGMENT_ULF:
 				app.setCallbackHandlerUlf(callbackHandler);
 				break;
@@ -70,9 +73,9 @@ public class MenuFragment extends Fragment {
 
 	private void updateMenuList() {
 		try {
-			adapter.setMenu(app.getMensas().get(index).getMenus().get(0));
+			adapter.setMenu(app.getMensas().get(mensaIndex).getMenus().get(0));
 			adapter.notifyDataSetChanged();
-			Log.i(MensaApp.TAG, "Menu list updated, " + String.valueOf(app.getMensas().get(index).getMenus().get(0)).length() + " meals found");
+			Log.i(MensaApp.TAG, "Menu list updated, " + String.valueOf(app.getMensas().get(mensaIndex).getMenus().get(0)).length() + " meals found");
 		} catch (Exception ex) {
 			Log.e(MensaApp.TAG, "Unable to update menu list, no data available yet");
 		}
