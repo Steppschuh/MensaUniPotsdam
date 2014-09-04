@@ -11,8 +11,21 @@
     <string name="date_tomorrow">Morgen</string>
     <string name="date_aftertomorrow">Übermorgen</string>
 
+    <string name="unkown">Unbekannt</string>
+
+    <string name="info_meal_category">Keine Daten</string>
+    <string name="info_meal_name">Es ist leider kein Speiseplan verfügbar</string>
+
     <string name="mensa_potsdam">Uni Potsdam</string>
     <string name="mensa_ulf">Ulf\'s Café</string>
     <string name="action_settings">Settings</string>
+
+    <string name="indicator_poultry">Mit Geflügelfleisch</string>
+    <string name="indicator_pork">Mit Schweinefleisch</string>
+    <string name="indicator_beef">Mit Rindfleisch</string>
+    <string name="indicator_fish">Mit Fisch</string>
+    <string name="indicator_vegan">Für Veganer geeignet</string>
+    <string name="indicator_vital">Vital</string>
+    <string name="indicator_vegetabil">Ausgewogene Ernährung</string>
 
 </resources>

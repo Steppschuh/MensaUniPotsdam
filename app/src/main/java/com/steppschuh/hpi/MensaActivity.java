@@ -37,6 +37,8 @@ public class MensaActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mensa);
 
+		app = (MensaApp) getApplicationContext();
+
 		prepareUi();
     }
 
@@ -63,21 +65,20 @@ public class MensaActivity extends FragmentActivity {
 		mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			@Override
 			public void onPageScrolled(int i, float v, int i2) {
-				Log.d(MensaApp.TAG, "onPageScrollStateChanged " + i);
+				//Log.d(MensaApp.TAG, "onPageScrolled " + i);
 			}
 
 			@Override
 			public void onPageSelected(int i) {
-				Log.d(MensaApp.TAG, "onPageSelected " + i);
+				//Log.d(MensaApp.TAG, "onPageSelected " + i);
+				currentMensaIndex = i;
+				updateDaySelector();
+				Log.d(MensaApp.TAG, "currentMensaIndex: " + i);
 			}
 
 			@Override
 			public void onPageScrollStateChanged(int i) {
-				//Log.d(MensaApp.TAG, "onPageSelected " + i);
-				if (i != currentMenuIndex) {
-					currentMensaIndex = i;
-					Log.d(MensaApp.TAG, "onPageSelected " + i);
-				}
+				//Log.d(MensaApp.TAG, "onPageScrollStateChanged " + i);
 			}
 		});
 
@@ -97,9 +98,20 @@ public class MensaActivity extends FragmentActivity {
 		dayNext.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				Log.d(MensaApp.TAG, "dayNext click");
 				showNextDayMenu(currentMensaIndex);
 			}
 		});
+
+		dayPrevious.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.d(MensaApp.TAG, "dayPrev click");
+				showPreviousDayMenu(currentMensaIndex);
+			}
+		});
+
+		updateDaySelector();
 	}
 
 	private boolean hasNextDayMenu(int mensaIndex) {
@@ -132,8 +144,57 @@ public class MensaActivity extends FragmentActivity {
 		if (!hasNextDayMenu(mensaIndex)) {
 			return;
 		}
-
+		Log.d(MensaApp.TAG, "Showing next day menu");
+		currentMenuIndex += 1;
+		updateDaySelector();
 		mMenuCollectionPagerAdapter.notifyDataSetChanged();
+	}
+
+	private void showPreviousDayMenu(int mensaIndex) {
+		if (!hasPreviousDayMenu(mensaIndex)) {
+			return;
+		}
+		Log.d(MensaApp.TAG, "Showing previous day menu");
+		currentMenuIndex -= 1;
+		updateDaySelector();
+		mMenuCollectionPagerAdapter.notifyDataSetChanged();
+	}
+
+	public void updateDaySelector() {
+		if (hasPreviousDayMenu(currentMensaIndex)) {
+			dayPrevious.setVisibility(View.VISIBLE);
+		} else {
+			dayPrevious.setVisibility(View.INVISIBLE);
+		}
+
+		if (hasNextDayMenu(currentMensaIndex)) {
+			dayNext.setVisibility(View.VISIBLE);
+		} else {
+			dayNext.setVisibility(View.INVISIBLE);
+		}
+
+		try {
+			String day = app.getMensas().get(currentMensaIndex).getMenus().get(currentMenuIndex).getReadableDate(this);
+			dayText.setText(day);
+		} catch (Exception ex) {
+			dayText.setText(getString(R.string.unkown));
+		}
+	}
+
+	public int getCurrentMenuIndex() {
+		return currentMenuIndex;
+	}
+
+	public void setCurrentMenuIndex(int currentMenuIndex) {
+		this.currentMenuIndex = currentMenuIndex;
+	}
+
+	public int getCurrentMensaIndex() {
+		return currentMensaIndex;
+	}
+
+	public void setCurrentMensaIndex(int currentMensaIndex) {
+		this.currentMensaIndex = currentMensaIndex;
 	}
 
 	/**
@@ -172,6 +233,7 @@ public class MensaActivity extends FragmentActivity {
 			return 2;
 		}
 
+		@Override
 		public int getItemPosition(Object object) {
 			// Causes adapter to reload all Fragments when
 			// notifyDataSetChanged is called

@@ -22,8 +22,7 @@ public class ImageHelper {
 		allImages.addAll(subImages);
 
 		if (allImages.size() < 1) {
-			//TODO: Image
-			Drawable defualtImage =  activity.getResources().getDrawable(R.drawable.ic_logo_green);
+			Drawable defualtImage =  activity.getResources().getDrawable(R.drawable.food_unkown);
 			allImages.add(defualtImage);
 		}
 
@@ -33,21 +32,25 @@ public class ImageHelper {
 	public static ArrayList<Drawable> getMainImages(String title, Activity activity) {
 		ArrayList<Drawable> images = new ArrayList<Drawable>();
 
+		if (title.equals(activity.getString(R.string.info_meal_name))) {
+			images.add(getDrawableById(R.drawable.food_unkown, activity));
+			return images;
+		}
+
 		if (title.contains("fisch")) {
 			if (title.contains("fischstäbchen")) {
 				images.add(getDrawableById(R.drawable.food_fischstaebchen, activity));
 			} else if (title.contains("fischfilet")) {
 				images.add(getDrawableById(R.drawable.food_fischfilet, activity));
 			} else {
-				//TODO: Image
-				images.add(getDrawableById(R.drawable.food_fischfilet, activity));
+				images.add(getDrawableById(R.drawable.food_fish, activity));
 			}
 		}
 
 		if (title.contains("pute")) {
 			//TODO: Images
-			if (title.contains("putenbrustgeschnetzeltes")) {
-				images.add(getDrawableById(R.drawable.food_geschnaetzeltes, activity));
+			if (title.contains("geschnetzeltes")) {
+				images.add(getDrawableById(R.drawable.food_geschnetzeltes, activity));
 			} else if (title.contains("putenbrust")) {
 				images.add(getDrawableById(R.drawable.food_haehnchenbrustfilet, activity));
 			} else if (title.contains("putenfilet")) {
@@ -67,7 +70,9 @@ public class ImageHelper {
 		}
 
 		if (title.contains("hähnchen")) {
-			if (title.contains("hähnchenbrust")) {
+			if (title.contains("geschnetzeltes")) {
+				images.add(getDrawableById(R.drawable.food_geschnetzeltes, activity));
+			} else if (title.contains("hähnchenbrust")) {
 				images.add(getDrawableById(R.drawable.food_haehnchenbrustfilet, activity));
 			} else {
 				//TODO: Image
@@ -99,10 +104,8 @@ public class ImageHelper {
 			images.add(getDrawableById(R.drawable.food_steak, activity));
 		if (title.contains("auflauf"))
 			images.add(getDrawableById(R.drawable.food_auflauf, activity));
-
-		//TODO: Image
 		if (title.contains("penne rigate"))
-			images.add(getDrawableById(R.drawable.food_rahmgeschnaetzeltes, activity));
+			images.add(getDrawableById(R.drawable.food_spirelli, activity));
 		if (title.contains("hefeklöße"))
 			images.add(getDrawableById(R.drawable.food_hefekloesse, activity));
 		if (title.contains("ofengemüse"))
@@ -115,10 +118,8 @@ public class ImageHelper {
 			images.add(getDrawableById(R.drawable.food_tzatziki, activity));
 		if (title.contains("lasagne"))
 			images.add(getDrawableById(R.drawable.food_lasagne, activity));
-
-		//TODO: Image
 		if (title.contains("brathering"))
-			images.add(getDrawableById(R.drawable.food_fischfilet, activity));
+			images.add(getDrawableById(R.drawable.food_fish, activity));
 		if (title.contains("rahmgeschnetzeltes"))
 			images.add(getDrawableById(R.drawable.food_rahmgeschnaetzeltes, activity));
 		if (title.contains("milchreis"))
@@ -151,7 +152,6 @@ public class ImageHelper {
 		ArrayList<Drawable> images = new ArrayList<Drawable>();
 
 		if (title.contains("kartoffel")) {
-			//TODO: Images
 			if (title.contains("bratkartoffeln")) {
 				images.add(getDrawableById(R.drawable.food_bratkartoffeln, activity));
 			} else if (title.contains("kartoffelpüree")) {
@@ -161,8 +161,7 @@ public class ImageHelper {
 			} else if (title.contains("herzoginkartoffeln")) {
 				images.add(getDrawableById(R.drawable.food_herzoginkartoffeln, activity));
 			} else if (title.contains("kartoffelgratin")) {
-				//TODO: Image
-				images.add(getDrawableById(R.drawable.food_auflauf, activity));
+				images.add(getDrawableById(R.drawable.food_kartoffelgratin, activity));
 			} else {
 				images.add(getDrawableById(R.drawable.food_kartoffeln, activity));
 			}
@@ -188,10 +187,6 @@ public class ImageHelper {
 			images.add(getDrawableById(R.drawable.food_salat, activity));
 		if (title.contains("reis"))
 			images.add(getDrawableById(R.drawable.food_reis, activity));
-		if (title.contains("brot"))
-			images.add(getDrawableById(R.drawable.food_brot, activity));
-		if (title.contains("tomaten"))
-			images.add(getDrawableById(R.drawable.food_tomaten, activity));
 		if (title.contains("brokolli"))
 			images.add(getDrawableById(R.drawable.food_brokkoli, activity));
 		if (title.contains("blumenkohl"))
@@ -202,6 +197,8 @@ public class ImageHelper {
 			images.add(getDrawableById(R.drawable.food_spirelli, activity));
 		if (title.contains("suppe"))
 			images.add(getDrawableById(R.drawable.food_suppe, activity));
+		if (title.contains("tomaten"))
+			images.add(getDrawableById(R.drawable.food_tomaten, activity));
 		if (title.contains("käse"))
 			images.add(getDrawableById(R.drawable.food_reibekaese, activity));
 		if (title.contains("champignon"))
@@ -216,6 +213,8 @@ public class ImageHelper {
 			images.add(getDrawableById(R.drawable.food_wedges, activity));
 		if (title.contains("zucchini"))
 			images.add(getDrawableById(R.drawable.food_zucchini, activity));
+		if (title.contains("brot"))
+			images.add(getDrawableById(R.drawable.food_brot, activity));
 
 		return images;
 	}
@@ -223,6 +222,5 @@ public class ImageHelper {
 	public static Drawable getDrawableById(int id, Activity activity) {
 		return activity.getResources().getDrawable(id);
 	}
-
 
 }

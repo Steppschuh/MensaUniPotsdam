@@ -1,14 +1,11 @@
 package com.steppschuh.hpi;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.widget.ImageView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Meal {
@@ -68,29 +65,37 @@ public class Meal {
 	 * Returns a list of icons based on the meal name & notes
 	 * (indicating meat, fish, etc...)
 	 */
-	public ArrayList<Drawable> getIcons(Activity activity) {
-		ArrayList<Drawable> images = new ArrayList<Drawable>();
+	public ArrayList<Indicator> getIndicators(Activity activity) {
+		ArrayList<Indicator> indocators = new ArrayList<Indicator>();
 		if (notes != null) {
 			for (int i = 0; i < notes.size(); i++) {
 				String note = notes.get(i).toLowerCase();
 				if (note.contains(INDICATOR_POULTRY)) {
-					images.add(activity.getResources().getDrawable(R.drawable.ic_chicken));
+					indocators.add(new Indicator(activity.getResources().getDrawable(R.drawable.ic_chicken),
+							activity.getString(R.string.indicator_poultry)));
 				} else if (note.contains(INDICATOR_PORK)) {
-					images.add(activity.getResources().getDrawable(R.drawable.ic_pig));
+					indocators.add(new Indicator(activity.getResources().getDrawable(R.drawable.ic_pig),
+							activity.getString(R.string.indicator_pork)));
 				} else if (note.contains(INDICATOR_BEEF)) {
-					images.add(activity.getResources().getDrawable(R.drawable.ic_cow));
+					indocators.add(new Indicator(activity.getResources().getDrawable(R.drawable.ic_cow),
+							activity.getString(R.string.indicator_beef)));
 				} else if (note.contains(INDICATOR_FISH)) {
-					images.add(activity.getResources().getDrawable(R.drawable.ic_fish));
+					indocators.add(new Indicator(activity.getResources().getDrawable(R.drawable.ic_fish),
+							activity.getString(R.string.indicator_fish)));
 				} else if (note.contains(INDICATOR_VEGAN)) {
-					images.add(activity.getResources().getDrawable(R.drawable.ic_vegetarian));
+					indocators.add(new Indicator(activity.getResources().getDrawable(R.drawable.ic_vegetarian),
+							activity.getString(R.string.indicator_vegan)));
 				} else if (note.contains(INDICATOR_VITAL)) {
-					images.add(activity.getResources().getDrawable(R.drawable.ic_vital));
+					indocators.add(new Indicator(activity.getResources().getDrawable(R.drawable.ic_vital),
+							activity.getString(R.string.indicator_vital)));
 				} else if (note.contains(INDICATOR_VEGETABIL)) {
-					images.add(activity.getResources().getDrawable(R.drawable.ic_vegetabil));
+					indocators.add(new Indicator(activity.getResources().getDrawable(R.drawable.ic_vegetabil),
+							activity.getString(R.string.indicator_vegetabil)));
 				}
 			}
 		}
-		return images;
+		//TODO: parse title if notes are null
+		return indocators;
 	}
 
 	/**

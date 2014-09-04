@@ -2,23 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/green_light"
     tools:context="com.steppschuh.hpi.MenuFragment">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:gravity="bottom"
+    <ListView
+        android:id="@+id/listview_menu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:divider="@android:color/transparent">
 
-
-        <ListView
-            android:id="@+id/listview_menu"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@android:color/transparent">
-
-        </ListView>
-
-    </LinearLayout>
+    </ListView>
 
 </FrameLayout>

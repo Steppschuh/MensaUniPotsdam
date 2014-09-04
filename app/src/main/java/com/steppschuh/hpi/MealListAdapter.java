@@ -3,18 +3,15 @@ package com.steppschuh.hpi;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.steppschuh.hpi.utils.DataHelper;
-import com.steppschuh.hpi.utils.ImageHelper;
+import com.steppschuh.hpi.utils.GetBestImageTask;
 import com.steppschuh.hpi.utils.UiHelper;
 
 public class MealListAdapter extends BaseAdapter {
@@ -92,14 +89,14 @@ public class MealListAdapter extends BaseAdapter {
 		if(iconContainer.getChildCount() > 0) {
 			iconContainer.removeAllViews();
 		}
-		for (Drawable icon: meal.getIcons(activity)) {
-			iconContainer.addView(getIndicatorView(icon, activity));
+		for (Indicator indicator: meal.getIndicators(activity)) {
+			iconContainer.addView(getIndicatorView(indicator.getIcon(), activity));
 		}
 
 		// Set background image
-		Drawable foodImage = ImageHelper.getBestImage(meal.getReadableName().toLowerCase(), activity);
 		ImageView backgroundImage = (ImageView) view.findViewById(R.id.meal_background);
-		backgroundImage.setImageDrawable(foodImage);
+		GetBestImageTask task = new GetBestImageTask(backgroundImage, activity);
+		task.execute(meal.getReadableName().toLowerCase());
 
 		return view;
 	}

@@ -1,18 +1,17 @@
 package com.steppschuh.hpi;
 
-import android.os.Handler;
+import android.app.Activity;
 import android.util.Log;
 
-import com.steppschuh.hpi.utils.DataHelper;
-import com.steppschuh.hpi.utils.NetworkHelper;
-
-import org.apache.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class Menu {
 
@@ -44,6 +43,40 @@ public class Menu {
 			Log.e(MensaApp.TAG, "Unable to parse menu JSON object");
 			ex.printStackTrace();
 		}
+	}
+
+	public String getReadableDate(Activity activity) {
+		if (date == null) {
+			return activity.getString(R.string.unkown);
+		}
+
+		// Get difference between menu date and today
+		int dayToday;
+		int dayMenu;
+		int dayDif;
+		Calendar today = Calendar.getInstance();
+		dayToday = today.get(Calendar.DAY_OF_YEAR);
+
+		Calendar meal = new GregorianCalendar();
+		meal.setTime(date);
+		dayMenu = meal.get(Calendar.DAY_OF_YEAR);
+
+		// Check for simple strings
+		dayDif = dayMenu - dayToday;
+		switch (dayDif) {
+			case 0: {
+				return activity.getString(R.string.date_today);
+			}
+			case 1: {
+				return activity.getString(R.string.date_tomorrow);
+			}
+			case 2: {
+				return activity.getString(R.string.date_aftertomorrow);
+			}
+		}
+
+		// Format date to readable string
+		return meal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.GERMANY);
 	}
 
 	/**
