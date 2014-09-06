@@ -1,10 +1,20 @@
 package com.steppschuh.hpi.utils;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Environment;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.steppschuh.hpi.R;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class ImageHelper {
@@ -66,6 +76,14 @@ public class ImageHelper {
 			} else {
 				//TODO: Image
 				images.add(getDrawableById(R.drawable.food_schweinefleich, activity));
+			}
+		}
+
+		if (title.contains("paprika")) {
+			if (title.contains("gefülllt")) {
+				images.add(getDrawableById(R.drawable.food_paprika_gefuellt, activity));
+			} else {
+				images.add(getDrawableById(R.drawable.food_paprika, activity));
 			}
 		}
 
@@ -133,16 +151,14 @@ public class ImageHelper {
 		if (title.contains("soljanka"))
 			images.add(getDrawableById(R.drawable.food_soljanka, activity));
 		if (title.contains("rindergeschnetzeltes"))
-			images.add(getDrawableById(R.drawable.food_geschnaetzeltes, activity));
+			images.add(getDrawableById(R.drawable.food_geschnetzeltes, activity));
 		if (title.contains("cordon bleu"))
 			images.add(getDrawableById(R.drawable.food_cordonbleu, activity));
-		if (title.contains("braten"))
+		if (title.contains("braten "))
 			images.add(getDrawableById(R.drawable.food_braten, activity));
-		if (title.contains("paprika"))
-			images.add(getDrawableById(R.drawable.food_paprika, activity));
 		if (title.contains("rührei"))
 			images.add(getDrawableById(R.drawable.food_ruehrei, activity));
-		if (title.contains("gnocchi"))
+		if (title.contains("gnocchi") || title.contains("gnocci"))
 			images.add(getDrawableById(R.drawable.food_gnocchi, activity));
 
 		return images;
@@ -183,8 +199,6 @@ public class ImageHelper {
 			images.add(getDrawableById(R.drawable.food_pommes, activity));
 		if (title.contains("erbsen"))
 			images.add(getDrawableById(R.drawable.food_erbsen, activity));
-		if (title.contains("salat"))
-			images.add(getDrawableById(R.drawable.food_salat, activity));
 		if (title.contains("reis"))
 			images.add(getDrawableById(R.drawable.food_reis, activity));
 		if (title.contains("brokolli"))
@@ -215,7 +229,8 @@ public class ImageHelper {
 			images.add(getDrawableById(R.drawable.food_zucchini, activity));
 		if (title.contains("brot"))
 			images.add(getDrawableById(R.drawable.food_brot, activity));
-
+		if (title.contains("salat"))
+			images.add(getDrawableById(R.drawable.food_salat, activity));
 		return images;
 	}
 
@@ -223,4 +238,52 @@ public class ImageHelper {
 		return activity.getResources().getDrawable(id);
 	}
 
+	public static Bitmap getBitmapFromView(View view) {
+		// Remove share button from view
+		try	{
+			RelativeLayout shareLayout = (RelativeLayout) view.findViewById(R.id.meal_share);
+			if (shareLayout != null) {
+				shareLayout.setVisibility(View.INVISIBLE);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		Bitmap b = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+		Canvas c = new Canvas(b);
+		view.draw(c);
+		return b;
+	}
+
+	public static File saveBitmapToStorage(Bitmap bitmap) {
+		try {
+			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bytes);
+
+			String filePath = Environment.getExternalStorageDirectory() + File.separator + "share_meal.jpg";
+			File f = new File(filePath);
+			if (f.exists()) {
+				f.delete();
+			}
+			f.createNewFile();
+
+			FileOutputStream fo = new FileOutputStream(f);
+			fo.write(bytes.toByteArray());
+			fo.close();
+			return f;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
+	public static void shareFile(File file, Activity activity) {
+		Uri uri = Uri.fromFile(file);
+		Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_SEND);
+		intent.setType("image/jpeg");
+
+		intent.putExtra(Intent.EXTRA_STREAM, uri);
+		activity.startActivity(Intent.createChooser(intent, activity.getString(R.string.share_menu)));
+	}
 }

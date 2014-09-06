@@ -3,6 +3,7 @@ package com.steppschuh.hpi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,8 +17,10 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.steppschuh.hpi.utils.ImageHelper;
 import com.steppschuh.hpi.utils.UiHelper;
 
 import java.util.ArrayList;
@@ -119,10 +122,10 @@ public class MenuFragment extends Fragment {
 	}
 
 	private View generateDetailView(int position) {
-		Meal meal = app.getMensas().get(mensaIndex).getMenus().get(menuIndex).getMeals().get(position);
+		final Meal meal = app.getMensas().get(mensaIndex).getMenus().get(menuIndex).getMeals().get(position);
 
 		LayoutInflater inflater = getActivity().getLayoutInflater();
-		View view = inflater.inflate(R.layout.meal_item_detail, null);
+		final View view = inflater.inflate(R.layout.meal_item_detail, null);
 
 		TextView title = (TextView) view.findViewById(R.id.meal_name);
 		title.setText(meal.getReadableName());
@@ -146,6 +149,30 @@ public class MenuFragment extends Fragment {
 		for (Indicator indicator: meal.getIndicators(getActivity())) {
 			iconContainer.addView(getIndicatorView(indicator, getActivity()));
 		}
+
+		// Add meal images to container
+		LinearLayout foodContainer = (LinearLayout) view.findViewById(R.id.meal_image_container);
+		if(foodContainer.getChildCount() > 0) {
+			foodContainer.removeAllViews();
+		}
+		for (Drawable drawable: ImageHelper.getImages(meal.getReadableName().toLowerCase(), getActivity())) {
+			foodContainer.addView(getFoodImageView(drawable, getActivity()));
+		}
+
+		RelativeLayout layoutShare = (RelativeLayout) view.findViewById(R.id.meal_share);
+		layoutShare.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				RelativeLayout shareLayout = (RelativeLayout) view.findViewById(R.id.meal_share);
+				if (shareLayout != null) {
+					shareLayout.setVisibility(View.INVISIBLE);
+				}
+
+
+
+				Meal.shareMeal(view, getActivity());
+			}
+		});
 
 		return view;
 	}
@@ -185,5 +212,17 @@ public class MenuFragment extends Fragment {
 		layout.addView(textView);
 
 		return layout;
+	}
+
+	private ImageView getFoodImageView(Drawable drawable, Context context) {
+		ImageView iconView = new ImageView(context);
+		iconView.setImageDrawable(drawable);
+
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+		params.weight = 1f;
+		iconView.setLayoutParams(params);
+
+		iconView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		return iconView;
 	}
 }

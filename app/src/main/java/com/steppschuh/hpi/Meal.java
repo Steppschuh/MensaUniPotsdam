@@ -1,11 +1,16 @@
 package com.steppschuh.hpi;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.util.Log;
+import android.view.View;
+
+import com.steppschuh.hpi.utils.ImageHelper;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Meal {
@@ -57,7 +62,7 @@ public class Meal {
 
 	public static String removeIndicators(String oldValue) {
 		String newValue = oldValue;
-		newValue = newValue.replaceAll("\\([0-9]*\\)", "");
+		newValue = newValue.replaceAll("(\\([0-9]*\\))*(\\(.*\\))*", "");
 		return newValue;
 	}
 
@@ -96,6 +101,16 @@ public class Meal {
 		}
 		//TODO: parse title if notes are null
 		return indocators;
+	}
+
+	public static void shareMeal(View view, Activity activity) {
+		try {
+			Bitmap viewBitmap = ImageHelper.getBitmapFromView(view);
+			File viewFile = ImageHelper.saveBitmapToStorage(viewBitmap);
+			ImageHelper.shareFile(viewFile, activity);
+		} catch (Exception ex) {
+			ex.toString();
+		}
 	}
 
 	/**

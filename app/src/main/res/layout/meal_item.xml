@@ -35,7 +35,7 @@
         <TextView
             android:id="@+id/meal_name"
             android:textSize="16sp"
-            android:textColor="@color/text_main"
+            android:textColor="@color/text_dark_main"
             android:gravity="center"
             android:layout_centerInParent="true"
             android:text="Panierte Hähnchenbrust mit Sauce Bernaise und Brokkoli, dazu Kroketten oder Salzkartoffeln"
@@ -53,7 +53,7 @@
             <TextView
                 android:id="@+id/meal_category"
                 android:textSize="14sp"
-                android:textColor="@color/text_sub"
+                android:textColor="@color/text_dark_sub"
                 android:gravity="center"
                 android:text="Angebot 1"
                 android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
             <TextView
                 android:id="@+id/meal_price"
                 android:textSize="14sp"
-                android:textColor="@color/text_sub"
+                android:textColor="@color/text_dark_sub"
                 android:gravity="center"
                 android:text="2,20€"
                 android:layout_marginLeft="10dp"

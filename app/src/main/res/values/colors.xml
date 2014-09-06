@@ -2,9 +2,13 @@
 
     <color name="green_dark">#689400</color>
     <color name="green_light">#87ba00</color>
+    <color name="green_light_transparent">#9987ba00</color>
 
-    <color name="text_main">#FF000000</color>
-    <color name="text_sub">#77000000</color>
+    <color name="text_dark_main">#FF000000</color>
+    <color name="text_dark_sub">#99000000</color>
+
+    <color name="text_light_main">#FFFFFFFF</color>
+    <color name="text_light_sub">#99FFFFFF</color>
 
     <color name="meal_back">#AAffffff</color>
 
